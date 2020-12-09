@@ -7,7 +7,22 @@ class CPU:
 
     def __init__(self):
         """Construct a new CPU."""
-        pass
+        self.ram = [0] * 256
+        self.reg = [0] * 8
+        self.pc = 0
+        self.running = False
+        self.commands = {
+            0b00000001: self.hlt,
+            0b10000010: self.ldi,
+            0b01000111: self.prn,
+        }
+
+    def ram_read(MAR):
+        return self.ram[MAR]
+
+    def ram_write(MDR, MAR):
+        self.ram[MAR] = MDR
+
 
     def load(self):
         """Load a program into memory."""
@@ -62,4 +77,28 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        pass
+
+        """
+        program = [
+            # From print8.ls8
+            0b10000010, # LDI R0,8
+            0b00000000,
+            0b00001000,
+            0b01000111, # PRN R0
+            0b00000000,
+            0b00000001, # HLT
+        ]
+        """
+
+        instruction = self.ram[self.pc]
+            #where command is at
+
+        while instruction !== HLT:
+            operand_a = self.ram_read(self.pc + 1)
+            operand_b = self.ram_read(self.pc + 2)
+            if instruction == LDI:
+                self.reg[operand_a] = operand_b
+                self.pc += 3
+            elif instruction == PRN:
+                print(self.reg[operand_a])
+
